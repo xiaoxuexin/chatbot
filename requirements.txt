@@ -3,3 +3,4 @@ openai
 langchain
 chromadb
 pysqlite3-binary
+pypdf
