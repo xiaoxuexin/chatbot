@@ -6,7 +6,7 @@ import openai
 import sys
 import datetime
 import numpy as np
-from dotenv import load_dotenv, find_dotenv
+# from dotenv import load_dotenv, find_dotenv
 import chromadb
 from langchain_community.document_loaders import TextLoader
 from langchain.document_loaders import PyPDFLoader
