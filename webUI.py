@@ -60,7 +60,7 @@ def self_upload(uploaded_files):
 
 def configure_retriever(docs):
     # Split documents
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=150, chunk_overlap=50)
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=300, chunk_overlap=50)
     splits = text_splitter.split_documents(docs)
 
     # Create embeddings and store in vectordb
@@ -75,7 +75,7 @@ def configure_retriever(docs):
         persist_directory=persist_directory
     )
     # Define retriever
-    retriever = vectordb.as_retriever(search_type="mmr", search_kwargs={"k": 2, "fetch_k": 4})
+    retriever = vectordb.as_retriever(search_type="mmr", search_kwargs={"k": 3, "fetch_k": 5})
 
     return retriever
 
@@ -136,7 +136,7 @@ if not uploaded_files:
     text = []
     for loader in loaders:
         text.extend(loader.load())
-
+st.info("您可以自由上传文件或者使用系统自带文档-中医内科学，进行对话，请尽量使用贴近中医的表达、尽量描述症状，这些都有助于更好地帮助bot回答问题，感谢您的配合。")
 retriever = configure_retriever(text)
 
 # Setup memory for contextual conversation
@@ -171,7 +171,7 @@ qa_chain = ConversationalRetrievalChain.from_llm(
 
 if len(msgs.messages) == 0 or st.sidebar.button("Clear message history"):
     msgs.clear()
-    msgs.add_ai_message("有什么可以帮助的吗？")
+    msgs.add_ai_message("这是一个中医问题咨询bot，请问有什么可以帮助的吗？")
 
 avatars = {"human": "user", "ai": "assistant"}
 for msg in msgs.messages:
@@ -184,7 +184,7 @@ for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
-if user_query := st.chat_input(placeholder="快乐摆烂😊"):
+if user_query := st.chat_input(placeholder="快乐摆烂😊请输入问题："):
     with st.chat_message("user"):
         st.markdown(user_query)
     st.session_state.messages.append({"role": "user", "content": user_query})
