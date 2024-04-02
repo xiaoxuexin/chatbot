@@ -2,4 +2,3 @@ streamlit
 openai
 langchain
 chromadb
-tempfile
