@@ -22,7 +22,7 @@ from langchain.llms import OpenAI
 from langchain.retrievers.self_query.base import SelfQueryRetriever
 from langchain.chains.query_constructor.base import AttributeInfo
 from langchain.embeddings.openai import OpenAIEmbeddings
-from langchain_openai import ChatOpenAI
+# from langchain_openai import ChatOpenAI
 from langchain.chat_models import ChatOpenAI
 from langchain.chains import RetrievalQA
 from langchain.prompts import PromptTemplate
