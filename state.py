@@ -1,7 +1,8 @@
 # from streamlit.report_thread import get_report_ctx
 # from streamlit.script_run_context import add_script_run_ctx
 from streamlit.runtime.scriptrunner.script_run_context import get_script_run_ctx
-from streamlit.hashing import _CodeHasher
+# from streamlit.hashing import _CodeHasher
+from streamlit.legacy_caching.hashing import _CodeHasher
 from streamlit.server.server import Server
 from prometheus_client.registry import REGISTRY
 from prometheus_client import Counter
