@@ -2,7 +2,8 @@
 # from streamlit.script_run_context import add_script_run_ctx
 from streamlit.runtime.scriptrunner.script_run_context import get_script_run_ctx
 # from streamlit.hashing import _CodeHasher
-from streamlit.legacy_caching.hashing import _CodeHasher
+# from streamlit.legacy_caching.hashing import _CodeHasher
+rom streamlit.caching.hashing import _CacheFuncHasher
 from streamlit.server.server import Server
 from prometheus_client.registry import REGISTRY
 from prometheus_client import Counter
@@ -14,7 +15,7 @@ class _SessionState:
         self.__dict__["_state"] = {
         "data": {},
         "hash": None,
-        "hasher": _CodeHasher(hash_funcs),
+        "hasher": _CacheFuncHasher(hash_funcs),
         "is_rerun": False,
         "session": session,
         }
