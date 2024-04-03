@@ -3,7 +3,7 @@
 from streamlit.runtime.scriptrunner.script_run_context import get_script_run_ctx
 # from streamlit.hashing import _CodeHasher
 # from streamlit.legacy_caching.hashing import _CodeHasher
-rom streamlit.caching.hashing import _CacheFuncHasher
+from streamlit.caching.hashing import _CacheFuncHasher
 from streamlit.server.server import Server
 from prometheus_client.registry import REGISTRY
 from prometheus_client import Counter
