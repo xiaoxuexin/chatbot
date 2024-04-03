@@ -1,4 +1,5 @@
-from streamlit.report_thread import get_report_ctx
+# from streamlit.report_thread import get_report_ctx
+from streamlit.script_run_context import add_script_run_ctx
 from streamlit.hashing import _CodeHasher
 from streamlit.server.server import Server
 from prometheus_client.registry import REGISTRY
@@ -60,7 +61,8 @@ class _SessionState:
                 self._state["hash"] = self._state["hasher"].to_bytes(self._state["data"], None)
 
     def _get_session():
-        session_id = get_report_ctx().session_id
+        # session_id = get_report_ctx().session_id
+        session_id = add_script_run_ctx().streamlit_script_run_ctx.session_id
         session_info = Server.get_current()._get_session_info(session_id)
         if session_info is None:
             raise RuntimeError("Couldn't get your Streamlit Session object.")
