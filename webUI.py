@@ -1,7 +1,7 @@
 __import__('pysqlite3')
 import sys
 sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
-from state import count_sessions
+# from state import count_sessions
 import sqlite3
 import streamlit as st
 from openai import OpenAI
@@ -43,7 +43,7 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 st.set_page_config(page_title="LangChain: Chat with Documents", page_icon="🦜")
 st.title("🤖中医🌿小助手")
 new_key = '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'
-count_sessions()
+# count_sessions()
 # @st.cache_resource(ttl="1h")
 @st.cache_resource
 def self_upload(uploaded_files):
@@ -204,5 +204,9 @@ if user_query := st.chat_input(placeholder="快乐摆烂😊请输入问题：")
         st.markdown(response)
     st.session_state.messages.append({"role": "assistant", "content": response})
 
+if "counter" not in st.session_state:
+    st.session_state["counter"] = 0
+st.session_state["counter"] += 1
+st.markdown('view count is ' + str(st.session_state["counter"]))
 
 
