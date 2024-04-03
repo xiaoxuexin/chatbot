@@ -1,6 +1,7 @@
 __import__('pysqlite3')
 import sys
 sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+from state import count_sessions
 import sqlite3
 import streamlit as st
 from openai import OpenAI
@@ -42,7 +43,7 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 st.set_page_config(page_title="LangChain: Chat with Documents", page_icon="🦜")
 st.title("🤖中医🌿小助手")
 new_key = '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'
-
+count_sessions()
 # @st.cache_resource(ttl="1h")
 @st.cache_resource
 def self_upload(uploaded_files):
