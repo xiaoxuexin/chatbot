@@ -23,7 +23,7 @@ def inject_ga():
         if bck_index.exists():
             shutil.copy(bck_index, index_path)  
         else:
-            shutil.copy(index_path, bck_index)  
+            shutil.copytree(index_path, bck_index)  
         html = str(soup)
         new_html = html.replace('<head>', '<head>\n' + GA_SCRIPT)
         index_path.write_text(new_html)
