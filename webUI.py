@@ -1,6 +1,3 @@
-from add_analytics import add_analytics_tag
-add_analytics_tag()
-
 __import__('pysqlite3')
 import sys
 sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
