@@ -37,7 +37,7 @@ def add_analytics_tag():
         if bck_index.exists():
             shutil.copy(bck_index, index_path)  # backup recovery
         else:
-            shutil.copyfile(index_path, bck_index)  # save backup
+            shutil.copy2(index_path, bck_index)  # save backup
         html = str(soup)
         new_html = html.replace('<head>', '<head>\n' + analytics_js) 
         index_path.write_text(new_html)
