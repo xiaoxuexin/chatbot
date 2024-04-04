@@ -1,3 +1,10 @@
+from bs4 import BeautifulSoup
+import shutil
+import pathlib
+import logging
+import streamlit as st
+
+
 def add_analytics_tag():
     # replace G-XXXXXXXXXX to your web app's ID
     
