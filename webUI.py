@@ -1,3 +1,4 @@
+import add_analytics
 inject_ga()
 
 __import__('pysqlite3')
