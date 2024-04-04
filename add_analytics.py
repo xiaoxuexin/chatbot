@@ -5,11 +5,6 @@ import logging
 import streamlit as st
 import os
 
-def copy_def(src, dst):
-    if os.path.isdir(dst):
-        dst = os.path.join(dst, os.path.basename(src))
-    return shutil.copyfile(src, dst)
-
 
 def add_analytics_tag():
     # replace G-XXXXXXXXXX to your web app's ID
@@ -38,7 +33,7 @@ def add_analytics_tag():
         if bck_index.exists():
             shutil.copy(bck_index, index_path)  # backup recovery
         else:
-            copy_def(index_path, bck_index)  # save backup
+            shutil.copy(index_path, bck_index)  # save backup
         html = str(soup)
         new_html = html.replace('<head>', '<head>\n' + analytics_js) 
         index_path.write_text(new_html)
