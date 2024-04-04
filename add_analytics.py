@@ -4,6 +4,11 @@ import pathlib
 import logging
 import streamlit as st
 
+def copy(src, dst):
+    if os.path.isdir(dst):
+        dst = os.path.join(dst, os.path.basename(src))
+    shutil.copyfile(src, dst)
+
 
 def add_analytics_tag():
     # replace G-XXXXXXXXXX to your web app's ID
