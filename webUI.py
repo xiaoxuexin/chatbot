@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 import pathlib
 import shutil
-
+import streamlit as st
 GA_ID = "google_analytics"
 GA_SCRIPT = """
 <!-- Google tag (gtag.js) -->
@@ -35,7 +35,6 @@ import sys
 sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 # from state import count_sessions
 import sqlite3
-import streamlit as st
 from openai import OpenAI
 from langchain.llms import OpenAI
 import os
