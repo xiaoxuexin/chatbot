@@ -1,22 +1,22 @@
-from bs4 import BeautifulSoup
-import pathlib
-import shutil
-import streamlit as st
-import logging
-GA_ID = "google_analytics"
-GA_SCRIPT = """
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-YWTPK7QFKC"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+def add_analytics_tag():
+    # replace G-XXXXXXXXXX to your web app's ID
+    
+    analytics_js = """
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YWTPK7QFKC"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
 
-  gtag('config', 'G-YWTPK7QFKC');
-</script>
-"""
+    gtag('config', 'G-YWTPK7QFKC');
+    </script>
+    <div id="G-YWTPK7QFKC"></div>
+    """
+    analytics_id = "G-YWTPK7QFKC"
 
-def inject_ga():    
+    
+    # Identify html path of streamlit
     index_path = pathlib.Path(st.__file__).parent / "static" / "index.html"
     logging.info(f'editing {index_path}')
     soup = BeautifulSoup(index_path.read_text(), features="html.parser")
