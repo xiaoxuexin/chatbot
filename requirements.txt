@@ -6,3 +6,7 @@ pysqlite3-binary
 pypdf
 tiktoken
 bs4
+streamlit-feedback
+langsmith
+langchain-core
+langchain-community
