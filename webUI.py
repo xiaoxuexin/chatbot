@@ -38,6 +38,16 @@ from langchain.callbacks.base import BaseCallbackHandler
 from langchain.chains import ConversationalRetrievalChain
 from langchain.vectorstores import DocArrayInMemorySearch
 from langchain.text_splitter import RecursiveCharacterTextSplitter
+from streamlit_feedback import streamlit_feedback
+from langsmith import Client
+from langchain import callbacks
+os.environ["LANGCHAIN_TRACING_V2"] = "true"
+os.environ["LANGCHAIN_PROJECT"] = f"streamlit-chatbot-chinese-medicine"
+os.environ["LANGCHAIN_ENDPOINT"] = "https://api.smith.langchain.com"
+os.environ["OPENAI_API_KEY"] = "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"
+os.environ["LANGCHAIN_API_KEY"] = "ls__213078bf5aef4551bada076f30cb80f8"
+client = Client(api_url="https://api.smith.langchain.com",
+                api_key='ls__213078bf5aef4551bada076f30cb80f8')
 
 st.set_page_config(page_title="LangChain: Chat with Documents", page_icon="🦜")
 st.title("🤖中医🌿小助手")
@@ -184,28 +194,92 @@ for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
-if user_query := st.chat_input(placeholder="快乐摆烂😊请输入问题："):
-    with st.chat_message("user"):
-        st.markdown(user_query)
-    st.session_state.messages.append({"role": "user", "content": user_query})
+# if user_query := st.chat_input(placeholder="快乐摆烂😊请输入问题："):
+#     with st.chat_message("user"):
+#         st.markdown(user_query)
+#     st.session_state.messages.append({"role": "user", "content": user_query})
 
-    with st.chat_message("assistant"):
-        retrieval_handler = PrintRetrievalHandler(st.container())
-        stream_handler = StreamHandler(st.empty())
-        result = qa_chain({"question": user_query}, callbacks=[retrieval_handler, stream_handler])
-        print(result['answer'])
-        print(result['source_documents'])
-        page = result['source_documents'][0].metadata['page']
-        print(page)
-        head, tail = os.path.split(result['source_documents'][0].metadata['source'])
-        print(tail)
-        response = '根据' + tail + '第' + str(page + 1) + '页的内容，可以得到如下信息' + '\n\n' + result["answer"]
-        st.markdown(response)
-    st.session_state.messages.append({"role": "assistant", "content": response})
+#     with st.chat_message("assistant"):
+#         retrieval_handler = PrintRetrievalHandler(st.container())
+#         stream_handler = StreamHandler(st.empty())
+#         result = qa_chain({"question": user_query}, callbacks=[retrieval_handler, stream_handler])
+#         print(result['answer'])
+#         print(result['source_documents'])
+#         page = result['source_documents'][0].metadata['page']
+#         print(page)
+#         head, tail = os.path.split(result['source_documents'][0].metadata['source'])
+#         print(tail)
+#         response = '根据' + tail + '第' + str(page + 1) + '页的内容，可以得到如下信息' + '\n\n' + result["answer"]
+#         st.markdown(response)
+#     st.session_state.messages.append({"role": "assistant", "content": response})
 
 # if "counter" not in st.session_state:
 #     st.session_state["counter"] = 0
 # st.session_state["counter"] += 1
 # st.markdown('view count is ' + str(st.session_state["counter"]))
 
+if user_query := st.chat_input(placeholder="快乐摆烂😊请输入问题："):
+    with st.chat_message("user"):
+        st.markdown(user_query)
+    st.session_state.messages.append({"role": "user", "content": user_query})
+    print('user - bot')
+    with st.chat_message("assistant"):
+        retrieval_handler = PrintRetrievalHandler(st.container())
+        stream_handler = StreamHandler(st.empty())
+        print('generate result')
+        result = qa_chain({"question": user_query}, callbacks=[retrieval_handler, stream_handler])
+        run_id = stream_handler.run_id_ignore_token
+        run_id_session = st.session_state.get("run_id")
+        print(run_id)
+        page = result['source_documents'][0].metadata['page']
+        head, tail = os.path.split(result['source_documents'][0].metadata['source'])
+        response = '根据' + tail + '第' + str(page + 1) + '页的内容，可以得到如下信息' + '\n\n' + result["answer"]
+        st.markdown(response)
+        st.session_state.messages.append({"role": "assistant", "content": response})
+        print('check run id in next step')
+    if run_id:
+        feedback_option = 'thumbs'
+        feedback = streamlit_feedback(
+            feedback_type=feedback_option,
+            optional_text_label="[Optional] Please provide an explanation",
+            key=f"feedback_{run_id}",
+        )
+        print('get feedback')
+        # Define score mappings for both "thumbs" and "faces" feedback systems
+        score_mappings = {
+            "thumbs": {"👍": 1, "👎": 0},
+            "faces": {"😀": 1, "🙂": 0.75, "😐": 0.5, "🙁": 0.25, "😞": 0},
+        }
+
+        # Get the score mapping based on the selected feedback option
+        scores = score_mappings[feedback_option]
+        print('if feedback is not none')
+        print(feedback)
+        if feedback:
+            score = scores[feedback["score"]]
+            print('get score from feedback')
+            print(score)
+            print('if score is not none')
+            if score is not None:
+                # Formulate feedback type string incorporating the feedback option
+                # and score value
+                feedback_type_str = f"{feedback_option} {feedback['score']}"
+
+                # Record the feedback with the formulated feedback type string
+                # and optional comment
+                feedback_record = client.create_feedback(
+                    run_id,
+                    feedback_type_str,
+                    score=score,
+                    comment=feedback.get("text"),
+                )
+                print('recode feedback to client')
+                print(str(feedback_record.id))
+                st.session_state.feedback = {
+                    "feedback_id": str(feedback_record.id),
+                    "score": score,
+                }
+            else:
+                st.warning("Invalid feedback score.")
+            print('end')
 
