@@ -228,8 +228,8 @@ if user_query := st.chat_input(placeholder="快乐摆烂😊请输入问题：")
         stream_handler = StreamHandler(st.empty())
         print('generate result')
         result = qa_chain({"question": user_query}, callbacks=[retrieval_handler, stream_handler])
-        run_id = stream_handler.run_id_ignore_token
-        run_id_session = st.session_state.get("run_id")
+        # run_id = stream_handler.run_id_ignore_token
+        run_id = st.session_state.get("run_id")
         print(run_id)
         page = result['source_documents'][0].metadata['page']
         head, tail = os.path.split(result['source_documents'][0].metadata['source'])
