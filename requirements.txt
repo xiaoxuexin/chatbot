@@ -10,3 +10,4 @@ streamlit-feedback
 langsmith
 langchain-core
 langchain-community
+streamlit_feedback
