@@ -294,3 +294,6 @@ if len(st.session_state.messages) % 6 != 0:
                 "score": score,
             }
 # warning: you need to click 'submit' button twice on Streamlit dashboard, which is what we want to avoid in future
+# you will get error on the first submission, and continue submitting, then the error will be gone.
+# this two time submission is due to Streamlit running process, and it is what we want to avoid in future web development.
+# after submit, we cannot see the retrieval part, to be discussed.
