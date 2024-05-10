@@ -99,7 +99,7 @@ def configure_retriever(docs):
         persist_directory=persist_directory
     )
     print('vectordb')
-    conf_retriever = vectordb.as_retriever(search_type="mmr", search_kwargs={"k": 3, "fetch_k": 5})
+    conf_retriever = vectordb.as_retriever(search_type="mmr", search_kwargs={"k": 1, "fetch_k": 1})
     print('get retriever')
     return conf_retriever
 
