@@ -161,7 +161,7 @@ if not uploaded_files:
     st.info("If there is no files added, you will use system doc.")
     loaders = [
         # TextLoader("./files/sample_file.txt"),
-        PyPDFLoader("./files/doc.pdf"),
+        PyPDFLoader("./files/Climate Change Discussion.pdf"),
     ]
     for loader in loaders:
         text.extend(loader.load())
