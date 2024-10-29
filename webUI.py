@@ -53,15 +53,15 @@ from uuid import uuid4
 os.environ["LANGCHAIN_TRACING_V2"] = "true"
 os.environ["LANGCHAIN_PROJECT"] = f"streamlit-chatbot-chinese-medicine"
 os.environ["LANGCHAIN_ENDPOINT"] = "https://api.smith.langchain.com"
-# os.environ["OPENAI_API_KEY"] = "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"
-os.environ["LANGCHAIN_API_KEY"] = "ls__213078bf5aef4551bada076f30cb80f8"
+# os.environ["OPENAI_API_KEY"] = "OPENAIKEY"
+os.environ["LANGCHAIN_API_KEY"] = "LANGCHAINKEY"
 client = Client(api_url="https://api.smith.langchain.com",
-                api_key='ls__213078bf5aef4551bada076f30cb80f8')
+                api_key='LANGCHIANKEY')
 
 # streamlit title
 st.set_page_config(page_title="LangChain: Chat with Documents", page_icon="🦜")
 st.title("🤖Chatbot🌿")
-new_key = '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'
+new_key = 'OPENAIKEY'
 
 
 # streamlit cache resource
